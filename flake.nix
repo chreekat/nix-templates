@@ -14,6 +14,8 @@
         welcomeText = ''
           You should now be able to run `nix develop` to enter a shell with all
           dependencies for your local package present.
+
+          You can also use `direnv` to make this automatic.
         '';
       };
 
