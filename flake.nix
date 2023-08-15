@@ -12,7 +12,8 @@
         path = ./haskell-generic;
         description = "An anonymous build env for your local package";
         welcomeText = ''
-          TBD
+          You should now be able to run `nix develop` to enter a shell with all
+          dependencies for your local package present.
         '';
       };
 
