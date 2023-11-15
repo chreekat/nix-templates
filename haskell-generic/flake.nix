@@ -2,8 +2,10 @@
   inputs.nixpkgs.url = "github:NixOS/nixpkgs/release-23.05";
   outputs = { self, nixpkgs, ... }:
     let
+      # Set the package name here. TODO: do this automatically some how.
+      myPackage = "myPackage";
       hsOverlay = pkgs: self: super: {
-        myPackage = self.callCabal2nix "myPackage" ./. {};
+        myPackage = self.callCabal2nix myPackage ./. {};
       };
       myPkgs = import nixpkgs { system = "x86_64-linux"; overlays = [ self.overlays.default ]; };
     in {
@@ -13,13 +15,13 @@
         };
 
         myShell = final.myHaskellPackages.shellFor {
-          packages = pkgs: [ pkgs.myPackage ];
+          packages = pkgs: [ pkgs.${myPackage} ];
           buildInputs = [ myPkgs.haskell-language-server myPkgs.cachix final.nil ];
         };
       };
 
       devShells.x86_64-linux.default = myPkgs.myShell;
-      packages.x86_64-linux.default = myPkgs.myHaskellPackages.myPackage;
+      packages.x86_64-linux.default = myPkgs.myHaskellPackages.${myPackage};
       apps.x86_64-linux.default = {
         type = "app";
         program = myPkgs.lib.getExe self.packages.x86_64-linux.default;
