@@ -1,6 +1,13 @@
 {
-  inputs.nixpkgs.url = "github:NixOS/nixpkgs/release-23.05";
-  outputs = { self, nixpkgs, ... }:
+  inputs.flake-compat = {
+    url = "github:edolstra/flake-compat";
+    flake = false;
+  };
+  inputs.nixpkgs.url = "github:NixOS/nixpkgs/release-23.11";
+
+  # flake-compat is unused in the flake, but is used in default.nix and
+  # shell.nix.
+  outputs = { self, nixpkgs, flake-compat, ... }:
     let
       # Set the package name here. TODO: do this automatically some how.
       myPackage = "myPackage";
